@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 const app = express();
 const port = 3000;
 
+let data;
 //Step 1: Run the solution.js file without looking at the code.
 //Step 2: You can go to the recipe.json file to see the full structure of the recipeJSON below.
 const recipeJSON =
@@ -13,11 +14,25 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-  res.render("index.ejs");
+  res.render("index.ejs", {recipe: data});
 });
 
 app.post("/recipe", (req, res) => {
   //Step 3: Write your code here to make this behave like the solution website.
+  switch(req.body.choice){
+    case "chicken":
+      data = JSON.parse(recipeJSON)[0];
+      break;
+    case "beef":
+      data = JSON.parse(recipeJSON)[1];
+      break;
+    case "fish":
+      data = JSON.parse(recipeJSON)[2];
+      break;
+    default:
+      break;
+  }
+  res.redirect("/");
   //Step 4: Add code to views/index.ejs to use the recieved recipe object.
 });
 
